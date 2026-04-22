@@ -2,7 +2,6 @@
   "buildCommand": "npm run deploy:frontend",
   "outputDirectory": "env-setup/frontend/dist",
   "devCommand": "npm run frontend:dev",
-  "installCommand": "cd env-setup/frontend && npm ci --prefer-offline",
   "framework": "vite",
   "rewrites": [
     {

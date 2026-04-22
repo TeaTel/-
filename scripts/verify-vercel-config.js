@@ -74,7 +74,6 @@ if (fs.existsSync(rootVercelJsonPath)) {
     const checks = [
       { key: 'buildCommand', expected: 'npm run deploy:frontend' },
       { key: 'outputDirectory', expected: 'env-setup/frontend/dist' },
-      { key: 'installCommand', expected: 'npm install' },
       { key: 'framework', expected: 'vite' }
     ];
     

@@ -1,0 +1,88 @@
+# 依赖目录
+node_modules/
+*/node_modules/
+**/node_modules/
+
+# 构建输出
+dist/
+build/
+target/
+*.jar
+*.war
+*.ear
+
+# 日志文件
+*.log
+logs/
+*.logs
+
+# 运行时数据
+*.pid
+*.seed
+*.pid.lock
+
+# 环境变量文件
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 临时文件
+temp-archive-*/
+tmp/
+temp/
+
+# 前端构建缓存
+.cache/
+.vite/
+
+# Java/Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# 测试覆盖率
+coverage/
+*.lcov
+
+# 包管理器锁文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 前端依赖
+.env-setup/frontend/node_modules/
+.env-setup/frontend/dist/
+
+# 后端构建
+.env-setup/backend/target/
+.env-setup/backend/.mvn/
+
+# 个人配置文件
+*.local
+
+# 渲染配置文件（已包含在代码中）
+# render.yaml 需要提交，所以不忽略
+
+# 测试脚本（需要提交）
+# 测试脚本需要提交，所以不忽略
+
+# 项目文档（需要提交）
+# 项目文档需要提交，所以不忽略

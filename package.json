@@ -2,6 +2,7 @@
   "name": "campus-marketplace",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "校园二手交易平台 - 全栈项目",
   "workspaces": [
     "env-setup/frontend",
@@ -27,6 +28,7 @@
     "spring-boot",
     "fullstack"
   ],
+  "dependencies": {},
   "author": "TeaTel",
   "license": "MIT",
   "repository": {

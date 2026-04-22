@@ -5,9 +5,6 @@ output = "env-setup/frontend/dist"
 [build.environment]
 NODE_VERSION = "18"
 
-# 安装命令在frontend目录执行
-installCommand = "cd env-setup/frontend && npm ci --prefer-offline"
-
 # 明确指定使用Vite框架
 [framework]
 name = "vite"
