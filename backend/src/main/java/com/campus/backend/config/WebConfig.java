@@ -22,9 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 静态资源只匹配非API路径，避免拦截 /api/** 请求
-        registry.addResourceHandler("/", "/index.html", "/404.html", "/assets/**", "/static/**", "/favicon.ico", "/vite.svg")
+        // 配置静态资源映射 - 使用通配符确保所有资源都能被正确服务
+        registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
-                .setCachePeriod(3600);
+                .setCacheControl(org.springframework.http.CacheControl.maxAge(7, java.util.concurrent.TimeUnit.DAYS).cachePublic());
     }
 }
