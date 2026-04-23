@@ -22,9 +22,9 @@ spring:
       schema-locations: classpath:schema-mysql.sql
       data-locations: classpath:data-mysql.sql
   
-  # 延迟初始化，给数据库更多时间启动
+  # 禁用延迟初始化，确保Controller立即注册
   main:
-    lazy-initialization: true
+    lazy-initialization: false
   
   # JPA配置
   jpa:
@@ -39,17 +39,8 @@ spring:
         order_inserts: true
         order_updates: true
   
-  # 生产环境CORS配置（根据实际前端域名配置）
-  web:
-    cors:
-      allowed-origins: "${ALLOWED_ORIGINS:http://localhost:3000,https://your-frontend-domain.vercel.app}"
-      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
-      allowed-headers: "*"
-      allow-credentials: true
-    resources:
-      static-locations: classpath:/static/
-  mvc:
-    static-path-pattern: /**
+  # 注意：CORS和静态资源配置已在SecurityConfig.java和WebConfig.java中处理
+  # 此处不再重复配置，避免与WebConfig冲突导致ERR_ABORTED错误
   
   # Redis配置 - 禁用Redis，使用内存缓存
   data:
