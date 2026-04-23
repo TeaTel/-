@@ -1,5 +1,5 @@
-# Cache Buster - v11 DIAGNOSTIC
-# Version: 11.0 - Add Controller registration logger
-# Timestamp: 2026-04-23T20:10:00+08:00
-BUILD_VERSION=11.0.0-diagnostic-controller-logger
+# Cache Buster - v12 FINAL
+# Version: 12.0 - Completely remove WebConfig class
+# Timestamp: 2026-04-23T20:20:00+08:00
+BUILD_VERSION=12.0.0-remove-webconfig-class-completely
 FORCE_REBUILD=true

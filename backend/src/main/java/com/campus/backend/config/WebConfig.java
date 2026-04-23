@@ -1,28 +1,12 @@
 package com.campus.backend.config;
 
-import com.campus.backend.common.interceptor.ApiVersionInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+// WebConfig已完全禁用 - 让Spring Boot使用100%默认配置
+// 原因：实现WebMvcConfigurer接口可能干扰了默认的HandlerMapping行为
+// 导致有依赖的Controller无法被正确注册
+//
+// 如果需要自定义拦截器，请使用 @Configuration + @Bean 方式单独添加
 
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-    
-    @Autowired
-    private ApiVersionInterceptor apiVersionInterceptor;
-    
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(apiVersionInterceptor)
-                .addPathPatterns("/api/**")
-                .excludePathPatterns("/api-docs/**", "/swagger-ui/**", "/h2-console/**");
-    }
-    
-    // 完全移除 addResourceHandlers 方法
-    // 让Spring Boot使用默认的静态资源配置
-    // 默认行为：
-    // 1. 自动服务 classpath:/static/, classpath:/public/, classpath:/resources/, classpath:/META-INF/resources/
-    // 2. 不干扰 Controller 的 @RequestMapping 映射
-    // 3. 正确处理 /api/** 路径（Controller优先级高于静态资源）
-}
+// @Configuration
+// public class WebConfig implements WebMvcConfigurer {
+//     // 完全留空或删除此类
+// }
