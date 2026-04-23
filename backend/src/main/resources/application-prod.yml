@@ -22,9 +22,9 @@ spring:
       schema-locations: classpath:schema-mysql.sql
       data-locations: classpath:data-mysql.sql
   
-  # 延迟初始化，给数据库更多时间启动
+  # 禁用延迟初始化，确保Controller立即注册
   main:
-    lazy-initialization: true
+    lazy-initialization: false
   
   # JPA配置
   jpa:

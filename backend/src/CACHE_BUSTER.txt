@@ -1,7 +1,7 @@
 # Cache Buster - Force Docker Rebuild
-# Version: 4.0 - Fix API endpoints being intercepted by static resource handler
-# Timestamp: 2026-04-23T18:50:00+08:00
+# Version: 5.0 - Fix lazy-initialization causing API 500 errors
+# Timestamp: 2026-04-23T18:45:00+08:00
 # This file forces Docker to invalidate cache layer for COPY backend/src ./src
-BUILD_VERSION=4.0.0-fix-api-interception
+BUILD_VERSION=5.0.0-fix-lazy-initialization
 FORCE_REBUILD=true
-FIX_DESCRIPTION=Removed_wildcard_from_WebConfig_to_allow_API_requests
+FIX_DESCRIPTION=Disabled_lazy_initialization_to_ensure_controllers_register_immediately
