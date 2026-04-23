@@ -1,7 +1,6 @@
 # Cache Buster - Force Docker Rebuild
-# Version: 5.0 - Fix lazy-initialization causing API 500 errors
-# Timestamp: 2026-04-23T18:45:00+08:00
-# This file forces Docker to invalidate cache layer for COPY backend/src ./src
-BUILD_VERSION=5.0.0-fix-lazy-initialization
+# Version: 6.0 - Final fix: precise resource handler paths excluding /api/
+# Timestamp: 2026-04-23T19:00:00+08:00
+BUILD_VERSION=6.0.0-final-fix-precise-paths
 FORCE_REBUILD=true
-FIX_DESCRIPTION=Disabled_lazy_initialization_to_ensure_controllers_register_immediately
+FIX_DESCRIPTION=Restored_precise_path_config_to_exclude_API_from_static_handler

@@ -22,8 +22,12 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 使用Spring Boot默认的静态资源配置
-        // 不再自定义addResourceHandler，避免 /** 拦截 /api/** 请求
-        // Spring Boot默认自动服务 classpath:/static/ 下的文件
+        // 精确配置静态资源路径，明确排除 /api/ 路径
+        // 这样可以确保 /api/** 请求不会被静态资源处理器拦截
+        registry.addResourceHandler("/", "/index.html", "/404.html", 
+                "/assets/**", "/static/**", "/favicon.ico", "/vite.svg",
+                "/logo*.png", "/logo*.svg", "/images/**")
+                .addResourceLocations("classpath:/static/")
+                .setCacheControl(org.springframework.http.CacheControl.maxAge(7, java.util.concurrent.TimeUnit.DAYS).cachePublic());
     }
 }
