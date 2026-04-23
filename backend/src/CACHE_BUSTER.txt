@@ -1,6 +1,6 @@
-# Cache Buster - Force Docker Rebuild
-# Version: 8.0 - Fix lazy-init + allow-circular-references
-# Timestamp: 2026-04-23T19:20:00+08:00
-BUILD_VERSION=8.0.0-fix-bean-init-order
+# Cache Buster - FINAL FIX
+# Version: 9.0 - Remove ALL custom resource handlers, use Spring Boot defaults
+# Timestamp: 2026-04-23T19:40:00+08:00
+BUILD_VERSION=9.0.0-FINAL-remove-custom-resource-handlers
 FORCE_REBUILD=true
-FIX_DESCRIPTION=Disabled_lazy_init_and_allowed_circular_refs_to_fix_Controller_registration
+FIX_DESCRIPTION=Complete_removal_of_addResourceHandlers_to_use_Spring_Boot_defaults
