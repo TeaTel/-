@@ -1,5 +1,5 @@
-# Cache Buster - v10
-# Version: 10.0 - Make Service injection optional to allow Controller registration
-# Timestamp: 2026-04-23T20:00:00+08:00
-BUILD_VERSION=10.0.0-optional-service-injection
+# Cache Buster - v11 DIAGNOSTIC
+# Version: 11.0 - Add Controller registration logger
+# Timestamp: 2026-04-23T20:10:00+08:00
+BUILD_VERSION=11.0.0-diagnostic-controller-logger
 FORCE_REBUILD=true
