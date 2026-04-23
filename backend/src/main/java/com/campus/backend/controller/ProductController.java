@@ -9,6 +9,7 @@ import com.campus.backend.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,9 +28,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @Tag(name = "商品管理", description = "商品相关接口")
+@Slf4j
 public class ProductController {
 
-    @Autowired
+    @Autowired(required = false)
     private ProductService productService;
 
     @GetMapping
@@ -39,12 +41,13 @@ public class ProductController {
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
+        checkService();
         ProductQueryDTO query = new ProductQueryDTO();
         query.setCategoryId(categoryId);
         query.setKeyword(keyword);
         query.setPage(page);
         query.setSize(size);
-        
+
         List<ProductVO> productList = productService.getProductList(query);
         return Result.success(productList);
     }
@@ -52,6 +55,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @Operation(summary = "获取商品详情", description = "根据商品ID获取商品详细信息")
     public Result<ProductVO> getProductDetail(@PathVariable Long id) {
+        checkService();
         ProductVO productVO = productService.getProductDetail(id);
         return Result.success(productVO);
     }
@@ -59,28 +63,30 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "发布商品", description = "发布新商品")
     public Result<ProductVO> createProduct(@Valid @RequestBody ProductCreateDTO createDTO) {
+        checkService();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        
+
         // TODO: 根据用户名获取用户ID
         // 暂时使用测试用户ID
         Long sellerId = 1L;
-        
+
         ProductVO productVO = productService.createProduct(createDTO, sellerId);
         return Result.success(productVO);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "更新商品", description = "更新商品信息")
-    public Result<ProductVO> updateProduct(@PathVariable Long id, 
+    public Result<ProductVO> updateProduct(@PathVariable Long id,
                                           @Valid @RequestBody ProductUpdateDTO updateDTO) {
+        checkService();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        
+
         // TODO: 根据用户名获取用户ID
         // 暂时使用测试用户ID
         Long sellerId = 1L;
-        
+
         ProductVO productVO = productService.updateProduct(id, updateDTO, sellerId);
         return Result.success(productVO);
     }
@@ -88,13 +94,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     @Operation(summary = "删除商品", description = "删除商品（软删除）")
     public Result<Void> deleteProduct(@PathVariable Long id) {
+        checkService();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        
+
         // TODO: 根据用户名获取用户ID
         // 暂时使用测试用户ID
         Long sellerId = 1L;
-        
+
         productService.deleteProduct(id, sellerId);
         return Result.success();
     }
@@ -102,14 +109,22 @@ public class ProductController {
     @GetMapping("/my")
     @Operation(summary = "获取我的商品", description = "获取当前用户发布的商品列表")
     public Result<List<ProductVO>> getMyProducts() {
+        checkService();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        
+
         // TODO: 根据用户名获取用户ID
         // 暂时使用测试用户ID
         Long sellerId = 1L;
-        
+
         List<ProductVO> productList = productService.getMyProducts(sellerId);
         return Result.success(productList);
+    }
+
+    private void checkService() {
+        if (productService == null) {
+            log.error("ProductService is null! Database connection may have failed.");
+            throw new RuntimeException("Service unavailable - check database connection");
+        }
     }
 }
