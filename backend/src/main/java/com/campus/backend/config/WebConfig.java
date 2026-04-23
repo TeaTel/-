@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 静态资源只匹配非API路径，避免拦截 /api/** 请求
-        registry.addResourceHandler("/", "/**")
+        registry.addResourceHandler("/", "/index.html", "/404.html", "/assets/**", "/static/**", "/favicon.ico", "/vite.svg")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(3600);
     }

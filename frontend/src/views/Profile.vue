@@ -112,6 +112,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '../store/auth'
+import { userApi } from '../services/api'
 import NavBar from '../components/NavBar.vue'
 
 const authStore = useAuthStore()
@@ -159,20 +160,24 @@ async function updateProfile() {
   errorMessage.value = ''
   
   try {
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    successMessage.value = '个人资料更新成功！'
+    const response = await userApi.updateProfile(formData.value)
     
-    // 更新本地存储的用户信息
-    const updatedUser = { ...user.value, ...formData.value }
-    localStorage.setItem('user', JSON.stringify(updatedUser))
-    authStore.user = updatedUser
-    
-    setTimeout(() => {
-      successMessage.value = ''
-    }, 3000)
+    if (response.code === 200 || response.success) {
+      successMessage.value = '个人资料更新成功！'
+      
+      const updatedUser = { ...user.value, ...formData.value }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      authStore.user = updatedUser
+      
+      setTimeout(() => {
+        successMessage.value = ''
+      }, 3000)
+    } else {
+      errorMessage.value = response.message || '更新失败，请稍后重试'
+    }
   } catch (error) {
-    errorMessage.value = '更新失败，请稍后重试'
+    console.error('更新个人资料失败:', error)
+    errorMessage.value = error.message || '网络错误，请稍后重试'
   } finally {
     saving.value = false
   }

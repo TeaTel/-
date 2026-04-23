@@ -38,6 +38,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../store/auth'
+import { userApi } from '../services/api'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -105,60 +106,26 @@ async function handleRegister() {
   registerSuccess.value = false
 
   try {
-    // 演示模式：模拟注册成功
-    console.log('演示模式：模拟用户注册')
-    
-    // 模拟API调用延迟
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // 模拟注册成功
-    const mockUser = {
-      id: Math.floor(Math.random() * 1000) + 1000,
-      username: username.value,
-      phone: phone.value,
-      email: email.value,
-      createdAt: new Date().toISOString()
-    }
-    
-    const mockToken = 'demo_token_' + Date.now()
-    
-    // 保存到本地存储
-    localStorage.setItem('token', mockToken)
-    localStorage.setItem('user', JSON.stringify(mockUser))
-    
-    // 更新auth store
-    const authStore = useAuthStore()
-    authStore.token = mockToken
-    authStore.user = mockUser
-    
-    registerSuccess.value = true
-    registerError.value = '演示模式：注册成功！2秒后跳转到首页'
-    
-    setTimeout(() => {
-      router.push('/')
-    }, 2000)
-    
-    // 实际项目中的代码（注释掉）：
-    /*
-    const result = await authStore.register({
+    const result = await userApi.register({
       username: username.value,
       password: password.value,
       phone: phone.value,
       email: email.value
     })
-
-    if (result.success) {
+    
+    if (result.code === 200 || result.success) {
       registerSuccess.value = true
+      registerError.value = ''
+      
       setTimeout(() => {
         router.push('/login')
       }, 2000)
     } else {
       registerError.value = result.message || '注册失败，请稍后重试'
     }
-    */
   } catch (error) {
     console.error('注册错误:', error)
-    registerError.value = '网络错误，请检查连接后重试'
+    registerError.value = error.message || '网络错误，请检查连接后重试'
   } finally {
     loading.value = false
   }

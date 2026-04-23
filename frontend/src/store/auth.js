@@ -2,8 +2,50 @@ import { ref, computed } from 'vue'
 import { userApi } from '../services/api'
 
 // 创建响应式状态
-const token = ref(localStorage.getItem('token') || '')
-const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
+const token = ref('')
+const user = ref(null)
+
+// 初始化时验证存储的token（拒绝无效token如demo_token）
+function initializeAuth() {
+  const storedToken = localStorage.getItem('token')
+  const storedUser = localStorage.getItem('user')
+  
+  if (storedToken && storedUser) {
+    // 验证token格式，拒绝演示模式的假token
+    if (storedToken.startsWith('demo_token_') || storedToken.includes('demo')) {
+      console.warn('检测到无效的演示模式token，已自动清除')
+      clearAuthData()
+      return
+    }
+    
+    try {
+      const parsedUser = JSON.parse(storedUser)
+      
+      // 验证用户数据完整性
+      if (!parsedUser.id || !parsedUser.username) {
+        console.warn('用户数据不完整，已自动清除')
+        clearAuthData()
+        return
+      }
+      
+      token.value = storedToken
+      user.value = parsedUser
+      
+      // 检查token是否过期
+      if (parsedUser.tokenExpiry && new Date() > new Date(parsedUser.tokenExpiry)) {
+        console.warn('Token已过期，请重新登录')
+        clearAuthData()
+        return
+      }
+    } catch (e) {
+      console.error('解析用户信息失败:', e)
+      clearAuthData()
+    }
+  }
+}
+
+// 执行初始化
+initializeAuth()
 
 // 计算属性
 const isAuthenticated = computed(() => !!token.value)

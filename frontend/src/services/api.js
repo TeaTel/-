@@ -80,6 +80,16 @@ export const userApi = {
   // 获取用户信息
   getUserInfo() {
     return api.get('/users/info')
+  },
+  
+  // 更新用户资料
+  updateProfile(data) {
+    return api.put('/users/profile', data)
+  },
+  
+  // 修改密码
+  changePassword(data) {
+    return api.put('/users/password', data)
   }
 }
 

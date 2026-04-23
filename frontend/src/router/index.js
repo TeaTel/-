@@ -111,7 +111,9 @@ router.beforeEach((to, from, next) => {
   if (isPublicPath) {
     // 已登录用户访问登录/注册页，重定向到首页
     const token = localStorage.getItem('token')
-    if ((to.path === '/login' || to.path === '/register') && token) {
+    
+    // 额外验证token有效性（防止demo_token）
+    if ((to.path === '/login' || to.path === '/register') && token && isValidToken(token)) {
       return next({ path: '/' })
     }
     return next()
@@ -120,8 +122,14 @@ router.beforeEach((to, from, next) => {
   // 需要认证的页面
   const token = localStorage.getItem('token')
   
-  if (to.meta.requiresAuth && !token) {
-    // 未登录，保存目标路径并跳转到登录页
+  if (to.meta.requiresAuth && (!token || !isValidToken(token))) {
+    // 无效token或未登录，先清除可能存在的无效数据
+    if (token && !isValidToken(token)) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+    }
+    
+    // 跳转到登录页
     return next({
       path: '/login',
       query: { redirect: to.fullPath }
@@ -130,5 +138,20 @@ router.beforeEach((to, from, next) => {
   
   next()
 })
+
+// 验证token有效性的辅助函数
+function isValidToken(token) {
+  if (!token) return false
+  
+  // 拒绝演示模式的假token
+  if (token.startsWith('demo_token_') || token.includes('demo')) {
+    return false
+  }
+  
+  // JWT token基本格式验证（可选）
+  // JWT通常由三部分组成，用.分隔
+  // 这里只做基本长度检查
+  return token.length > 10
+}
 
 export default router

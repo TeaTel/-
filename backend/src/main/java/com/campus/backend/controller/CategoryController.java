@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 @Tag(name = "分类管理", description = "商品分类管理接口")
 public class CategoryController {
