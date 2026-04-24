@@ -7,22 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v2/users")
 public class UserApi {
 
     @PostMapping("/login")
     public Result<Map<String, Object>> login(@RequestBody Map<String, String> body) {
         Map<String, Object> result = new HashMap<>();
-        result.put("token", "test-token-123");
+        result.put("token", "test-token-v2");
         result.put("user", body.get("username"));
         return Result.success("login", result);
-    }
-
-    @PostMapping("/register")
-    public Result<Map<String, Object>> register(@RequestBody Map<String, String> body) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("token", "test-token-456");
-        result.put("user", body.get("username"));
-        return Result.success("registered", result);
     }
 }
