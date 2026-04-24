@@ -43,29 +43,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // ===== 公开接口 (无需登录) =====
-                .requestMatchers(
-                    "/api/users/register", "/api/users/login",
-                    "/api/categories/**",
-                    "/api/products/**",
-                    "/api/favorites/**",
-                    // v2 API (绕过旧路径拦截问题)
-                    "/api/v2/users/register", "/api/v2/users/login",
-                    "/api/v2/categories/**",
-                    "/api/v2/products/**",
-                    "/api/v2/favorites/**",
-                    // Swagger文档
-                    "/doc.html", "/webjars/**", "/swagger-resources/**",
-                    "/v3/api-docs/**", "/v2/api-docs/**",
-                    "/swagger-ui/**", "/swagger-ui.html",
-                    // 健康检查
-                    "/actuator/health", "/actuator/health/**",
-                    "/actuator/info", "/actuator/metrics",
-                    // 静态资源 (前端Vue)
-                    "/", "/index.html", "/404.html",
-                    "/assets/**", "/static/**", "/favicon.ico", "/vite.svg"
-                ).permitAll()
-                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/api/**").permitAll()
                 .anyRequest().permitAll()
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
